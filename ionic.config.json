@@ -1,0 +1,7 @@
+{
+  "name": "parasathesis",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

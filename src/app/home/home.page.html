@@ -1,4 +1,4 @@
-<ion-header [translucent]="true">
+<!-- <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
       Blank
@@ -9,4 +9,23 @@
 <ion-content [fullscreen]="true">
 
   <div #map id="map"></div>
+</ion-content> -->
+
+29
+<ion-header>
+  <ion-navbar color="primary">
+    <ion-title>
+      GPS Tracking
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+ 
+<ion-content padding>
+ 
+  <button ion-button full icon-left>
+      <ion-icon name="locate"></ion-icon>
+      Start Tracking
+    </button>
+  <div #map id="map"></div>
+ 
 </ion-content>

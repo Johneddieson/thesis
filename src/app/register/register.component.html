@@ -1,0 +1,72 @@
+<ion-header>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="title">
+    <h4>Signup</h4>
+    <p>Register with Code Crafts to get started</p>
+  </div>
+  <form [formGroup]="registerForm"  (ngSubmit)="submit()" novalidate>   
+  <ion-input onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)" placeholder="Enter your First Name" formControlName="firstname" class="primary-input"></ion-input>
+    <ion-text type="text" color="danger" *ngIf="registerForm.get('firstname').hasError('required') && registerForm.get('firstname').touched">
+     First Name shouldn't be empty 
+    </ion-text>
+    <ion-text color="danger" *ngIf="registerForm.get('firstname').hasError('minlength') && registerForm.get('firstname').touched">
+     First Name must be minimum 5 characters long
+    </ion-text>
+    <ion-text color="danger" *ngIf="registerForm.get('firstname').hasError('maxlength') && registerForm.get('firstname').touched">
+     First Name must be maximum 10 characters long
+    </ion-text>
+    <ion-input onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)"  placeholder="Enter your Middle Name" formControlName="middlename" class="primary-input"></ion-input>
+    <ion-text color="danger" *ngIf="registerForm.get('middlename').hasError('required') && registerForm.get('middlename').touched">
+      Middle Name shouldn't be empty 
+     </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('middlename').hasError('minlength') && registerForm.get('middlename').touched">
+       Middle must be minimum 5 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('middlename').hasError('maxlength') && registerForm.get('middlename').touched">
+       Middle must be maximum 10 characters long
+     </ion-text>
+     <ion-input onkeypress="return (event.charCode > 64 && event.charCode < 91) || (event.charCode > 96 && event.charCode < 123) || (event.charCode==32)"  placeholder="Enter your Surname" formControlName="surname" class="primary-input"></ion-input>
+     <ion-text color="danger" *ngIf="registerForm.get('surname').hasError('required') && registerForm.get('surname').touched">
+      Surname shouldn't be empty 
+     </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('surname').hasError('minlength') && registerForm.get('surname').touched">
+       Surname must be minimum 5 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('surname').hasError('maxlength') && registerForm.get('surname').touched">
+       Surname must be maximum 10 characters long
+     </ion-text>
+     <ion-input spellcheck="false" (keypress)="numberOnly($event)" placeholder="Enter your Phone Number" formControlName="cellphonenumber" class="primary-input"></ion-input>
+     <ion-text color="danger" *ngIf="registerForm.get('cellphonenumber').hasError('required') && registerForm.get('cellphonenumber').touched">
+      Cellphone Number shouldn't be empty 
+     </ion-text>
+     <ion-input placeholder="Email" formControlName="email" class="primary-input"></ion-input>
+  <ion-text color="danger" *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched">
+   Enter a valid email
+  </ion-text>
+  <ion-text color="danger" *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched">
+    Email shouldn't be empty
+   </ion-text>
+  <ion-input  placeholder="Password" formControlName="password" type="password" class="primary-input"></ion-input>
+
+  <ion-text color="danger" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">
+    Password shouldn't be empty
+   </ion-text>
+   
+  <ion-text color="danger" *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">
+    Middle must be minimum 8 characters long
+   </ion-text>
+  <p>By signing up you're agreed to our Terms & Conditions</p>
+
+  <div class="ion-margin-top">
+    <button type="submit" hidden #btn></button>
+    <ion-button expand="block" (click)="btn.click()" [disabled]="registerForm.invalid">SIGN UP</ion-button>
+  </div>
+  <div class="ion-margin-top ion-text-center">
+    <a (click)="dismiss()">Close</a>
+  </div>
+  
+</form>
+</ion-content>

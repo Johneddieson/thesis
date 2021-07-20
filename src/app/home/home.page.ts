@@ -4,6 +4,7 @@ import {Geolocation} from '@ionic-native/geolocation/ngx'
 import { Observable, Subscription } from 'rxjs';
 
 import { filter } from 'rxjs/operators';
+import { browser } from 'protractor';
 declare var google;
    //   this.markers.map(marker => marker.setMap(null))
   //   this.markers = [] 
@@ -45,6 +46,7 @@ export class HomePage implements OnInit {
  
   ngOnInit() {
     this.ionViewDidLoad()
+    
   
   }
   ionViewDidLoad() {
@@ -62,7 +64,7 @@ export class HomePage implements OnInit {
       this.isTracking = true;
       this.trackedRoute = [];
    
-      this.positionSubscription = this.geolocation.watchPosition()
+      this.positionSubscription = this.geolocation.watchPosition({enableHighAccuracy: true, maximumAge: 3000, timeout: 5000})
         .pipe(
           filter((p: any) => p.coords !== undefined) //Filter Out Errors
         )
@@ -70,29 +72,23 @@ export class HomePage implements OnInit {
           setTimeout(() => {
                let latLng = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
         this.map.setCenter(latLng);
-        this.map.setZoom(16);
+        this.map.setZoom(18);
      
             this.trackedRoute.push({ lat: data.coords.latitude, lng: data.coords.longitude });
             this.redrawPath(this.trackedRoute);
           }, 0);
         });
-      // this.geolocation.getCurrentPosition().then(pos => {
-      //   let latLng = new google.maps.LatLng(pos.coords.latitude, pos.coords.longitude);
-      //   this.map.setCenter(latLng);
-      //   this.map.setZoom(16);
-      // }).catch((error) => {
-      //   console.log('Error getting location', error);
-      // });
+      
     });
   }
  
-  loadHistoricRoutes() {
-    // this.storage.get('routes').then(data => {
-    //   if (data) {
-    //     this.previousTracks = data;
-    //   }
-    // });
-  }
+  // loadHistoricRoutes() {
+  //   this.storage.get('routes').then(data => {
+  //     if (data) {
+  //       this.previousTracks = data;
+  //     }
+  //   });
+  // }
   
 // startTracking() {
 //     this.isTracking = true;
@@ -114,7 +110,8 @@ export class HomePage implements OnInit {
   redrawPath(path) {
     for (const wew in path) {
       console.log(path[wew].lat)
-    
+      
+      
     if (this.currentMapTrack) {
       this.currentMapTrack.setMap(null);
     }
@@ -135,6 +132,7 @@ export class HomePage implements OnInit {
     }
   }
 }
+
   // stopTracking() {
   //   let newRoute = { finished: new Date().getTime(), path: this.trackedRoute };
   //   this.previousTracks.push(newRoute);

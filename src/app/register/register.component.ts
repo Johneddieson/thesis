@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, validateEventsArray } from '@angular/fire/firestore';
 import {FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AlertController, ModalController } from '@ionic/angular';
-
+import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-register',
   templateUrl: './register.component.html',
@@ -12,22 +11,26 @@ import { AlertController, ModalController } from '@ionic/angular';
 export class RegisterComponent implements OnInit {
 registerForm: FormGroup;
 submitted: boolean = false;  
-constructor(private afstore: AngularFirestore, private afauth: AngularFireAuth, private alertCtrl: AlertController, private modalCtrl: ModalController) { }
+constructor(private loadingCtrl: LoadingController, private afstore: AngularFirestore, private afauth: AngularFireAuth, private alertCtrl: AlertController, private modalCtrl: ModalController) { 
 
+}
   ngOnInit() {
     this.registerForm = new FormGroup({
       firstname: new FormControl('', [
         Validators.required,
+        Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
         Validators.minLength(5),
         Validators.maxLength(10),
       ]),
       middlename: new FormControl('', [
         Validators.required,
+        Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
         Validators.minLength(5),
         Validators.maxLength(10)
       ]),
       surname: new FormControl('', [
         Validators.required,
+        Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
         Validators.minLength(5),
         Validators.maxLength(10)
       ]),
@@ -51,14 +54,12 @@ constructor(private afstore: AngularFirestore, private afauth: AngularFireAuth, 
       return false;
     }
     return true;
-
   }
   submit () {
-    
       if (this.registerForm.value.cellphonenumber.substring(0, 2) != "09" || this.registerForm.value.cellphonenumber.length != 11) {
           this.alertCtrl.create({
           header: "Phone Number Format Error",
-          message: "Please Input a Philippine Phone Number Validation",
+          message: "Please Input a Philippine Phone Number Format",
           buttons: [
             {
               text: 'OK',
@@ -70,32 +71,48 @@ constructor(private afstore: AngularFirestore, private afauth: AngularFireAuth, 
           })
       } 
       else {
-
-        this.afauth.createUserWithEmailAndPassword(this.registerForm.value.email, this.registerForm.value.password)
-        .then(res => {
-          res.user.updateProfile({
-            displayName: 'admin'
-          }).then(() => {
-            this.afstore.doc(`users/${res.user.uid}`).set({
-              firstname: this.registerForm.value.firstname,
-              middlename: this.registerForm.value.middlename,
-              surname: this.registerForm.value.surname,
-              cellphonenumber: this.registerForm.value.cellphonenumber,
-              email: this.registerForm.value.email,
-              password: this.registerForm.value.password
-
+        this.loadingCtrl.create({
+        message: "Creating New User",
+        }).then(el => {
+          el.present()
+          this.afauth.createUserWithEmailAndPassword(this.registerForm.value.email, this.registerForm.value.password)
+          .then(res => {
+            res.user.updateProfile({
+              displayName: 'admin'
+            }).then(() => {
+              this.afstore.doc(`users/${res.user.uid}`).set({
+                firstname: this.registerForm.value.firstname,
+                middlename: this.registerForm.value.middlename,
+                surname: this.registerForm.value.surname,
+                cellphonenumber: this.registerForm.value.cellphonenumber,
+                email: this.registerForm.value.email,
+                password: this.registerForm.value.password
+              })           
+              setTimeout(() => {
+                  el.dismiss()
+                  this.registerForm.reset()
+                  this.alertCtrl.create({
+                    header: "Officially Created",
+                    message: "You Created A User Successfully",
+                    buttons: [
+                      {
+                        text: 'OK',
+                        role: 'cancel'
+                      }
+                    ]
+                  }).then(e => {
+                    e.present()
+                  })
+              }, 3000)
             })
-            
+          }).catch(err => {
+            console.log(err)
           })
         })
       }
-  }
-
-  
-
-
-  async dismiss() {
-    return await this.modalCtrl.dismiss();
-  }
+  } 
+async dismiss() {
+return await this.modalCtrl.dismiss();
+}
   
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, validateEventsArray } from '@angular/fire/firestore';
-import {FormControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import {FormControl, FormBuilder, FormGroup, Validators, ValidatorFn } from '@angular/forms';
 import { AlertController, LoadingController, ModalController } from '@ionic/angular';
 @Component({
   selector: 'app-register',
@@ -18,19 +18,23 @@ constructor(private loadingCtrl: LoadingController, private afstore: AngularFire
     this.registerForm = new FormGroup({
       firstname: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
+        this.customPatternValid({ pattern: /^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/, msg: "Always Starts With Capital Letter"}),
+        this.customPatternValid({ pattern: /^([^0-9]*)$/, msg: 'Numbers is not allowed' }),
+        //Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
         Validators.minLength(5),
         Validators.maxLength(10),
       ]),
       middlename: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
+        this.customPatternValid({ pattern: /^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/, msg: "Always Starts With Capital Letter"}),
+        this.customPatternValid({ pattern: /^([^0-9]*)$/, msg: 'Numbers is not allowed' }),
         Validators.minLength(5),
         Validators.maxLength(10)
       ]),
       surname: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
+        this.customPatternValid({ pattern: /^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/, msg: "Always Starts With Capital Letter"}),
+        this.customPatternValid({ pattern: /^([^0-9]*)$/, msg: 'Numbers is not allowed' }),
         Validators.minLength(5),
         Validators.maxLength(10)
       ]),
@@ -47,6 +51,18 @@ constructor(private loadingCtrl: LoadingController, private afstore: AngularFire
         Validators.minLength(8),
       ])
     })
+  }
+  customPatternValid(config: any): ValidatorFn {
+return (control: FormControl) => {
+  let urlRegeX: RegExp = config.pattern;
+  if (control.value && !control.value.match(urlRegeX)) {
+    return {
+      invalidMsg: config.msg
+    };
+  } else {
+    return null
+  }
+}
   }
   numberOnly(event): boolean {
     const charCode = (event.which) ? event.which : event.keyCode;
@@ -78,7 +94,7 @@ constructor(private loadingCtrl: LoadingController, private afstore: AngularFire
           this.afauth.createUserWithEmailAndPassword(this.registerForm.value.email, this.registerForm.value.password)
           .then(res => {
             res.user.updateProfile({
-              displayName: 'admin'
+              displayName: 'nurse'
             }).then(() => {
               this.afstore.doc(`users/${res.user.uid}`).set({
                 firstname: this.registerForm.value.firstname,

@@ -1,16 +1,37 @@
-<ion-content>
-  <div class="header">
-    <h3>Welcome Back, <span id="user-name">Jack</span></h3>
-    <h1>Please Login<br>To Continue</h1>
+<ion-header>
+
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="title">
+    <h4>Login</h4>
+    <p>Lets get started</p>
   </div>
-  <div class="form">
-    <ion-input type="email" placeholder="Email" value="jack@gmail.com"></ion-input>
-    <ion-input type="password" placeholder="Password"></ion-input>
-  </div>
-  <div class="button">
-    Login <ion-icon name="chevron-forward-outline"></ion-icon>
-  </div>
-  <div class="footer">
-    <h3>Don't have an account? <span>Sign up</span></h3>
-  </div>
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value.email, loginForm.value.password)" novalidate> 
+      <ion-input placeholder="Email" formControlName="email" class="primary-input"></ion-input>
+      <ion-text type="text" color="danger" *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">
+        Email shouldn't be empty 
+       </ion-text>
+       <ion-text type="text" color="danger" *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched">
+        Enter a Valid Email 
+       </ion-text>
+      <ion-input placeholder="Password" formControlName="password" type="password" class="primary-input"></ion-input>
+      <ion-text type="text" color="danger" *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+        Password shouldn't be empty 
+       </ion-text>
+       <ion-text type="text" color="danger" *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched">
+        Password must be minimum 8 characters long 
+       </ion-text>
+      <div class="ion-margin-top ion-text-right forget">
+        <a>Forgot Password?</a>
+      </div>
+      <div class="ion-margin-top">
+        <button type="submit" hidden #btn></button>
+    
+        <ion-button expand="block" (click)="btn.click()" [disabled]="loginForm.invalid">LOGIN</ion-button>
+      </div>
+      <div class="ion-margin-top ion-text-center">
+        <a (click)="dismiss()">Close</a>
+      </div>
+    </form>
 </ion-content>

@@ -4,6 +4,10 @@ import {AuthGuard} from  '../app/auth.guard'
 
 const routes: Routes = [
   {
+path: 'welcome',
+loadChildren: () => import('../app/welcome/welcome.module').then(m => m.WelcomePageModule)
+},
+  {
     path: 'nurse',
     canActivate: [AuthGuard],
     children: [
@@ -17,7 +21,7 @@ const routes: Routes = [
   
   {
     path: '',
-    redirectTo: 'nurse/home',
+    redirectTo: '/welcome',
     pathMatch: 'full'
   },
   {
@@ -38,7 +42,12 @@ const routes: Routes = [
         loadChildren: () => import('./login/login.module').then( m => m.LoginPageModule)
       }
     ]
-  }
+  },
+  {
+    path: 'welcome',
+    loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
+  },
+
   
  
 ];

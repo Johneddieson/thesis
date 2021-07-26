@@ -5,6 +5,7 @@ import { Observable, Subscription } from 'rxjs';
 
 import { filter } from 'rxjs/operators';
 import { browser } from 'protractor';
+import { Router } from '@angular/router';
 declare var google;
    //   this.markers.map(marker => marker.setMap(null))
   //   this.markers = [] 
@@ -39,10 +40,16 @@ export class HomePage implements OnInit {
   isTracking = false;
   trackedRoute = [];
   previousTracks = [];
- 
+  details: any = []
+
   positionSubscription: Subscription;
  
-  constructor(public navCtrl: NavController, private plt: Platform, private geolocation: Geolocation) { }
+  constructor(private router: Router, public navCtrl: NavController, private plt: Platform, private geolocation: Geolocation) { 
+    this.details = JSON.parse(localStorage.getItem('user'))
+   
+    if (this.details.displayName === "admin")
+    router.navigateByUrl('/admin/adminpage')
+  }
  
   ngOnInit() {
     this.ionViewDidLoad()
@@ -58,12 +65,11 @@ export class HomePage implements OnInit {
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         mapTypeControl: false,
         streetViewControl: false,
-        fullscreenControl: false
+        fullscreenControl: true
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
       this.isTracking = true;
       this.trackedRoute = [];
-   
       this.positionSubscription = this.geolocation.watchPosition({enableHighAccuracy: true, maximumAge: 3000, timeout: 5000})
         .pipe(
           filter((p: any) => p.coords !== undefined) //Filter Out Errors
@@ -71,14 +77,13 @@ export class HomePage implements OnInit {
         .subscribe(data => {
           setTimeout(() => {
                let latLng = new google.maps.LatLng(data.coords.latitude, data.coords.longitude);
-        this.map.setCenter(latLng);
-        this.map.setZoom(18);
-     
             this.trackedRoute.push({ lat: data.coords.latitude, lng: data.coords.longitude });
             this.redrawPath(this.trackedRoute);
           }, 0);
         });
-      
+        var trialLat = new google.maps.LatLng(17.6022296, 121.6894202)
+        this.map.setCenter(trialLat);    
+           this.map.setZoom(6);     
     });
   }
  
@@ -109,16 +114,12 @@ export class HomePage implements OnInit {
  
   redrawPath(path) {
     for (const wew in path) {
-      console.log(path[wew].lat)
-      
-      
     if (this.currentMapTrack) {
       this.currentMapTrack.setMap(null);
-    }
-      
-    if (path.length > 1) {
+    }     
+   // if (path.length > 1) {
       this.currentMapTrack = new google.maps.Marker({
-        //animation: google.maps.Animation.DROP,
+      //  animation: google.maps.Animation.DROP,
         position: {lat: path[wew].lat, lng: path[wew].lng},
       })
       // this.currentMapTrack = new google.maps.Polyline({
@@ -129,7 +130,7 @@ export class HomePage implements OnInit {
       //   strokeWeight: 3
       // });
       this.currentMapTrack.setMap(this.map);
-    }
+    //}
   }
 }
 

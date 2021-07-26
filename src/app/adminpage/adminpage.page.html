@@ -1,9 +1,41 @@
-<ion-header>
+<ion-header class="ion-no-border">
   <ion-toolbar>
-    <ion-title>adminpage</ion-title>
+    <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="primary">
+      <ion-button color="secondary">
+      <ion-badge>6</ion-badge>
+        <ion-icon ios="ellipsis-horizontal" md="ellipsis-vertical">
+        </ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Welcome</ion-title>
   </ion-toolbar>
 </ion-header>
-
-<ion-content>
-
-</ion-content>
+<ion-tabs #tabs>
+  <ion-tab-bar slot="bottom">
+    <ion-tab-button tab="createschedule">
+      <ion-icon name="calendar"></ion-icon>
+      <ion-label>Schedule</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="createnurse">
+      <ion-icon name="medkit-sharp"></ion-icon>
+      <ion-label>Create Nurse</ion-label>
+    </ion-tab-button>
+    <ion-tab-button tab="viewonduty">
+      <ion-icon name="map"></ion-icon>
+      <ion-label>View On Duty</ion-label>
+      <ion-badge>6</ion-badge>
+    </ion-tab-button>
+    <!-- <ion-tab-button tab="about">
+      <ion-icon name="information-circle"></ion-icon>
+      <ion-label>About</ion-label>
+    </ion-tab-button> -->
+  </ion-tab-bar>
+</ion-tabs>

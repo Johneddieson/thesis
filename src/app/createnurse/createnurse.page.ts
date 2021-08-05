@@ -17,17 +17,12 @@ export class CreatenursePage implements OnInit {
   meReference: AngularFirestoreDocument
   sub
   constructor(private auth: AuthService, private loadingCtrl: LoadingController,private alertCtrl: AlertController, private afauth: AngularFireAuth, private afstore: AngularFirestore) {
-    this.details = JSON.parse(localStorage.getItem('user'))
+    this.details = JSON.parse(sessionStorage.getItem('user'))
     
     this.afstore.collection('users', ref => ref.where("email", "==", this.details.email)).valueChanges()
     .subscribe(data => {
       console.log(data)
     })
-    // this.meReference = this.afstore.collection('users').doc(`${this.details.uid}`)
-    // this.sub = this.meReference.valueChanges().subscribe(data => {
-    //   console.log(data)
-    // })
-    
    }
 
   ngOnInit() {
@@ -37,7 +32,6 @@ export class CreatenursePage implements OnInit {
         Validators.required,
         this.customPatternValid({ pattern: /^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/, msg: "Always Starts With Capital Letter"}),
         this.customPatternValid({ pattern: /^([^0-9]*)$/, msg: 'Numbers is not allowed' }),
-        //Validators.pattern(/^([A-Z][a-z]*((\s[A-Za-z])?[a-z]*)*)$/),
         Validators.minLength(5),
         Validators.maxLength(10),
       ]),
@@ -57,7 +51,6 @@ export class CreatenursePage implements OnInit {
       ]),
       cellphonenumber: new FormControl('', [
         Validators.required,
-  //      Validators.pattern("^((\\+91-?)|0)?[0$9]{10}$")
     ]),
       email: new FormControl('', [
         Validators.required,
@@ -85,21 +78,21 @@ export class CreatenursePage implements OnInit {
     }
       }
       submit () {
-        // if (this.registerForm.value.cellphonenumber.substring(0, 2) != "09" || this.registerForm.value.cellphonenumber.length != 11) {
-        //     this.alertCtrl.create({
-        //     header: "Phone Number Format Error",
-        //     message: "Please Input a Philippine Phone Number Format",
-        //     buttons: [
-        //       {
-        //         text: 'OK',
-        //         role: 'cancel'  
-        //       }
-        //     ]
-        //     }).then((e) => {
-        //       e.present();
-        //     })
-        // } 
-       // else {
+        if (this.registerForm.value.cellphonenumber.substring(0, 2) != "09" || this.registerForm.value.cellphonenumber.length != 11) {
+            this.alertCtrl.create({
+            header: "Phone Number Format Error",
+            message: "Please Input a Philippine Phone Number Format",
+            buttons: [
+              {
+                text: 'OK',
+                role: 'cancel'  
+              }
+            ]
+            }).then((e) => {
+              e.present();
+            })
+        } 
+       else {
           this.loadingCtrl.create({
           message: "Creating New Nurse",
           }).then(el => {
@@ -118,8 +111,7 @@ export class CreatenursePage implements OnInit {
                   email: this.registerForm.value.email,
                   password: this.registerForm.value.password
                 })    
-              })
-                         
+              })                       
                 setTimeout(() => {
                     el.dismiss()
                     this.registerForm.reset()
@@ -134,8 +126,7 @@ export class CreatenursePage implements OnInit {
                       ]
                     }).then(e => {
                       e.present()
-                      
-                 //     res.user.uid = 
+                       
                     })
                 }, 3000)
          
@@ -154,7 +145,6 @@ export class CreatenursePage implements OnInit {
               })
             })
           })
-        //}
+        }
     } 
-
 }

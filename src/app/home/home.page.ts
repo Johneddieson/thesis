@@ -36,30 +36,26 @@ export class HomePage implements OnInit {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   currentMapTrack = null;
- 
   isTracking = false;
   trackedRoute = [];
   previousTracks = [];
   details: any = []
-
   positionSubscription: Subscription;
- 
   constructor(private router: Router, public navCtrl: NavController, private plt: Platform, private geolocation: Geolocation) { 
-    this.details = JSON.parse(localStorage.getItem('user'))
-   
+    this.details = JSON.parse(sessionStorage.getItem('user'))
     if (this.details.displayName === "admin")
     router.navigateByUrl('/admin/adminpage')
   }
- 
   ngOnInit() {
     this.ionViewDidLoad()
-    
-  
+    history.pushState(null, document.title, location.href);
+    window.addEventListener('popstate', function(event) {
+      history.pushState(null, document.title, location.href)
+    })
   }
   ionViewDidLoad() {
     this.plt.ready().then(() => {
      // this.loadHistoricRoutes();
- 
       let mapOptions = {
         zoom: 13,
         mapTypeId: google.maps.MapTypeId.ROADMAP,

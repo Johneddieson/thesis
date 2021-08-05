@@ -69,12 +69,11 @@ export class AuthService {
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
-    
   }
 
   // Returns true when user is looged in and email is verified
   get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user'));
+    const user = JSON.parse(sessionStorage.getItem('user'));
     return (user !== null) ? true : false;
   }
 
@@ -116,7 +115,7 @@ export class AuthService {
   // Sign out 
   SignOut() {
     return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     })
   }

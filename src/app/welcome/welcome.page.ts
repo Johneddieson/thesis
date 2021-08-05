@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { AngularFirestore, AngularFirestoreDocument } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { map } from 'rxjs/operators';
 import { LoginPage } from '../login/login.page';
 import { RegisterComponent } from '../register/register.component';
@@ -14,13 +14,16 @@ import { RegisterComponent } from '../register/register.component';
 })
 export class WelcomePage implements OnInit {
 display: string
-details
 wholename: string
 meReference: AngularFirestoreDocument
 sub
+details: any = []
+isAndroid: boolean = false;
+isIos: boolean = false;
+subscribe: any;
   constructor(private afstore: AngularFirestore, private afauth: AngularFireAuth, private router: Router, private modal: ModalController) {    
     
-  }
+   }
   ngOnInit() {
   }
   adminpage() {

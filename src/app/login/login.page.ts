@@ -76,8 +76,8 @@ loginForm: FormGroup
     })
     
   }
-  async dismiss() {
-    await this.modal.dismiss();
+  dismiss() {
+    this.modal.dismiss()
     
   }
    

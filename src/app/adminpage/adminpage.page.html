@@ -1,12 +1,12 @@
 <ion-header>
   <ion-toolbar>
-    <ion-buttons slot="primary">
-      <ion-button shape="round">
+    <ion-buttons  slot="primary">
+      <ion-button (click)="openNotifications($event)" shape="round">
       <ion-badge size="small">6</ion-badge>
-      <ion-icon  name="notifications-outline"></ion-icon>     
+      <ion-icon name="notifications-outline"></ion-icon>     
       </ion-button>
-      <ion-button>
-        <ion-icon shape="round" name="person-circle"></ion-icon>
+      <ion-button (click)="openaccountsettings($event)">
+        <ion-icon name="chevron-down-circle"></ion-icon>
       </ion-button>
     </ion-buttons>
     <!-- <ion-buttons slot="secondary">

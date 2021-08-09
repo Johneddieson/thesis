@@ -14,11 +14,13 @@ export class CreateschedulePage implements OnInit {
   minimumDate;
   nurse: any[] = []
   saved: any[] = []
+  details: any = []
   valueDate = new Date()
   petsa;
   nurseCollection: AngularFirestoreCollection
   constructor(private afstore: AngularFirestore, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
-    this.nurseCollection = this.afstore.collection('users', ref => ref.where("email", "!=", "ronaldguzman@gmail.com"))
+    this.details = JSON.parse(sessionStorage.getItem('user'))
+    this.nurseCollection = this.afstore.collection('users', ref => ref.where("email", "!=", this.details.email))
     this.nurseCollection.snapshotChanges()
     .pipe(map(actions => actions.map(a => {
       return {
@@ -117,7 +119,10 @@ this.nurse = data
           nursename: arr[0],
           patientFullname: `${this.scheduleForm.value.firstname} ${this.scheduleForm.value.middlename} ${this.scheduleForm.value.surname}`,
           patientPhoneNumber: `${this.scheduleForm.value.cellphonenumber}`,
-          patientAddress: `${this.scheduleForm.value.Address}`
+          patientAddress: `${this.scheduleForm.value.Address}`,
+          onduty: false,
+          finishDuty: 'not yet',
+          dateandtimearrived: "not yet done" 
     
         })
         this.scheduleForm.reset();

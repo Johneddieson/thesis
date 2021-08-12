@@ -21,7 +21,6 @@ export class CreatenursePage implements OnInit {
     
     this.afstore.collection('users', ref => ref.where("email", "==", this.details.email)).valueChanges()
     .subscribe(data => {
-      console.log(data)
     })
    }
 
@@ -51,6 +50,7 @@ export class CreatenursePage implements OnInit {
       ]),
       cellphonenumber: new FormControl('', [
         Validators.required,
+        Validators.pattern("^[0&9]{2}[0-9]{9}")
     ]),
       email: new FormControl('', [
         Validators.required,
@@ -78,25 +78,25 @@ export class CreatenursePage implements OnInit {
     }
       }
       submit () {
-        if (this.registerForm.value.cellphonenumber.substring(0, 2) != "09" || this.registerForm.value.cellphonenumber.length != 11) {
-            this.alertCtrl.create({
-            header: "Phone Number Format Error",
-            message: "Please Input a Philippine Phone Number Format",
-            buttons: [
-              {
-                text: 'OK',
-                role: 'cancel'  
-              }
-            ]
-            }).then((e) => {
-              e.present();
-            })
-        } 
-       else {
+        // if (this.registerForm.value.cellphonenumber.substring(0, 2) != "09" || this.registerForm.value.cellphonenumber.length != 11) {
+        //     this.alertCtrl.create({
+        //     header: "Phone Number Format Error",
+        //     message: "Please Input a Philippine Phone Number Format",
+        //     buttons: [
+        //       {
+        //         text: 'OK',
+        //         role: 'cancel'  
+        //       }
+        //     ]
+        //     }).then((e) => {
+        //       e.present();
+        //     })
+        // } 
+       
           this.loadingCtrl.create({
           message: "Creating New Nurse",
-          }).then(el => {
-            el.present()
+          }).then(loading => {
+            loading.present()
             this.afauth.createUserWithEmailAndPassword(this.registerForm.value.email, this.registerForm.value.password)
             .then(res => {
               res.user.updateProfile({
@@ -113,7 +113,7 @@ export class CreatenursePage implements OnInit {
                 })    
               })                       
                 setTimeout(() => {
-                    el.dismiss()
+                  loading.dismiss()
                     this.registerForm.reset()
                     this.alertCtrl.create({
                       header: "Officially Created",
@@ -142,9 +142,10 @@ export class CreatenursePage implements OnInit {
                 ]
               }).then(el => {
                 el.present()
+                loading.dismiss()
               })
             })
           })
-        }
+        
     } 
 }

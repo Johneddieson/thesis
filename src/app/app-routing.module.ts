@@ -12,6 +12,10 @@ loadChildren: () => import('../app/welcome/welcome.module').then(m => m.WelcomeP
     canActivate: [AuthGuard],
     children: [
       {
+        path: 'dashboard',
+        loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
+      },
+      {
         path: 'home',
         loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
       },
@@ -47,6 +51,7 @@ loadChildren: () => import('../app/welcome/welcome.module').then(m => m.WelcomeP
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },
+ 
 
   
  

@@ -15,8 +15,8 @@ export class CreateschedulePage implements OnInit {
   nurse: any[] = []
   saved: any[] = []
   details: any = []
-  valueDate = new Date()
-  petsa;
+  valueDate;
+  dateValue;
   nurseCollection: AngularFirestoreCollection
   constructor(private afstore: AngularFirestore, private loadingCtrl: LoadingController, private alertCtrl: AlertController) {
     this.details = JSON.parse(sessionStorage.getItem('user'))
@@ -33,6 +33,7 @@ this.nurse = data
    }
   
   ngOnInit() {
+    var ngayon = moment(new Date()).format("DD-MMM-YYYY, hh:mm A")   
     var date = new Date()
     this.minimumDate = moment(date).format("YYYY-MM-DDThh:mm")
     this.scheduleForm = new FormGroup({
@@ -74,7 +75,9 @@ this.nurse = data
         Validators.required
       ])
     })
-  }
+this.dateValue = this.scheduleForm.value.date
+this.valueDate = new Date()  
+}
  
   customPatternValid(config: any): ValidatorFn {
     return (control: FormControl) => {
@@ -90,11 +93,13 @@ this.nurse = data
       }
   triggered() {
     var convert = moment(this.scheduleForm.value.date).format("DD-MMM-YYYY, hh:mm A")
-    var ngayon = moment(new Date()).format("DD-MMM-YYYY, hh:mm A")   
- if (convert < ngayon)  {
-    this.alertCtrl.create({
+    var ngayon = moment(this.valueDate).format("DD-MMM-YYYY, hh:mm A")
+    var compare = moment(this.scheduleForm.value.date).isBefore(new Date())  
+       var myvaluedate = new Date(this.scheduleForm.value.date)
+       if (myvaluedate < new Date()) {
+        this.alertCtrl.create({
       header: "Schedule date and time invalid",
-      // <img src = "../../assets/horny-removebg-preview.png" width="15px" height="15px">
+       // <img src = "../../assets/horny-removebg-preview.png" width="15px" height="15px">
       message: "The schedule date and time should not be less than the current date",
       buttons: [
         {
@@ -105,31 +110,33 @@ this.nurse = data
       }).then((e) => {
         e.present();
       })
-  } else {
-   var arr = this.scheduleForm.value.nurse.split("&") 
-    this.loadingCtrl.create({
-      message: "Creating Schedule..."
-    }).then(el => {
-      el.present()
+      } else {
+     
+      var arr = this.scheduleForm.value.nurse.split("&") 
+      this.loadingCtrl.create({
+        message: "Creating Schedule..."
+      }).then(el => {
+        el.present()
+      
+        setTimeout(() => {
+          el.dismiss()
+          this.afstore.collection('users').doc(`${arr[1]}`).collection("myschedule").add({
+            schedulestart: myvaluedate,
+            nursename: arr[0],
+            patientFullname: `${this.scheduleForm.value.firstname} ${this.scheduleForm.value.middlename} ${this.scheduleForm.value.surname}`,
+            patientPhoneNumber: `${this.scheduleForm.value.cellphonenumber}`,
+            patientAddress: `${this.scheduleForm.value.Address}`,
+            onduty: false,
+            finishDuty: 'not yet',
+            dateandtimearrived: "not yet done" 
+      
+          })
+          this.scheduleForm.reset();
+        }, 3000)
+      
+      })
+      }
     
-      setTimeout(() => {
-        el.dismiss()
-        this.afstore.collection('users').doc(`${arr[1]}`).collection("myschedule").add({
-          schedulestart: convert,
-          nursename: arr[0],
-          patientFullname: `${this.scheduleForm.value.firstname} ${this.scheduleForm.value.middlename} ${this.scheduleForm.value.surname}`,
-          patientPhoneNumber: `${this.scheduleForm.value.cellphonenumber}`,
-          patientAddress: `${this.scheduleForm.value.Address}`,
-          onduty: false,
-          finishDuty: 'not yet',
-          dateandtimearrived: "not yet done" 
-    
-        })
-        this.scheduleForm.reset();
-      }, 3000)
-    
-    })
-  }
   }
 
 }

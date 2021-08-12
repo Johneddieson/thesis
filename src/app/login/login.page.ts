@@ -27,13 +27,18 @@ loginForm: FormGroup
       ])
     }) 
   }
+  dismiss() {
+    this.modal.dismiss()
+    
+  }
   login (email, password) 
   { 
     this.loadingCtrl.create({
       message: 'Please Wait Logging In...'
     }).then(el => {
       el.present()
-      this.auth.SignIn(email, password).then((res) => {    
+      this.auth.SignIn(email, password).then((res) => {
+        this.dismiss()    
         setTimeout(() => {
           if (res.user) {
             sessionStorage.setItem('user', JSON.stringify(res.user))
@@ -43,7 +48,7 @@ loginForm: FormGroup
         this.router.navigateByUrl('/admin/adminpage/createschedule')
             } else if (res.user.displayName == 'nurse') 
             {
-              this.router.navigateByUrl('/nurse/home')
+              this.router.navigateByUrl('/nurse/dashboard')
   
             } else {
               sessionStorage.setItem('user', null)
@@ -51,7 +56,6 @@ loginForm: FormGroup
             }
           }      
             el.dismiss()
-            this.dismiss()
             this.loginForm.reset()
           }, 3000)
       }).catch(err => {
@@ -76,10 +80,7 @@ loginForm: FormGroup
     })
     
   }
-  dismiss() {
-    this.modal.dismiss()
-    
-  }
+  
    
 
 }

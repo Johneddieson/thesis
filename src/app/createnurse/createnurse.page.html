@@ -62,6 +62,9 @@
     <ion-text color="danger" *ngIf="registerForm.get('cellphonenumber').hasError('required') && registerForm.get('cellphonenumber').touched">
       Cellphone Number shouldn't be empty 
      </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('cellphonenumber').hasError('pattern') && registerForm.get('cellphonenumber').touched">
+      Please enter a Philippine phone number format 
+     </ion-text>
      <ion-item lines="none">
       <ion-input  placeholder="Enter nurse email" formControlName="email"></ion-input>
     </ion-item>

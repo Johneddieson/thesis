@@ -1,0 +1,10 @@
+{
+  "name": "parasathesis",
+  "integrations": {
+    "capacitor": {
+      "enabled": false
+    },
+    "cordova": {}
+  },
+  "type": "angular"
+}

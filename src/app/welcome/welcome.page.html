@@ -1,0 +1,16 @@
+<ion-header>
+</ion-header>
+<ion-content class="ion-padding ion-text-center" color="primary">
+    <img src="../../assets/horny-removebg-preview.png" class="logo" />
+    <div class="title">
+        <h2>Welcome</h2>
+        <p>Holy Infant Tracking Application</p>
+    </div>
+    <div class="ion-margin-top">
+        <ion-button *ngIf="!disp"   expand="block" class="ion-margin-top" (click)="register()" fill="outline" color="white">SIGN UP</ion-button>
+        <ion-button *ngIf="!disp"  expand="block" class="ion-margin-top" (click)="login()" color="white">LOGIN</ion-button>
+        <ion-button *ngIf="disp == 'admin'" (click)="adminpage()" expand="block" class="ion-margin-top" color="white">Continue as Admin</ion-button>
+        <ion-button *ngIf="disp == 'nurse'" (click)="homepage()" expand="block" class="ion-margin-top" color="white">Back to Dashboard Page</ion-button>        
+      
+    </div>
+</ion-content>

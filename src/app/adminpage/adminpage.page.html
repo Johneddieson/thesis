@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons  slot="primary">
+      <ion-button (click)="openNotifications($event)" shape="round">
+      <ion-badge size="small">6</ion-badge>
+      <ion-icon name="notifications-outline"></ion-icon>     
+      </ion-button>
+      <ion-button (click)="openaccountsettings($event)">
+        <ion-icon name="chevron-down-circle"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <!-- <ion-buttons slot="secondary">
+      <ion-button>
+        <ion-icon slot="icon-only" name="person-circle"></ion-icon>
+      </ion-button>
+      <ion-button>
+        <ion-icon slot="icon-only" name="search"></ion-icon>
+      </ion-button>
+    </ion-buttons> -->
+    <ion-title>Welcome Admin</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+  <ion-tabs>
+    <ion-tab-bar slot="bottom">
+      <ion-tab-button tab="createschedule">
+        <ion-icon name="calendar"></ion-icon>
+        <ion-label>Schedule</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="createnurse">
+        <ion-icon name="medkit-sharp"></ion-icon>
+        <ion-label>Create Nurse</ion-label>
+      </ion-tab-button>
+      <ion-tab-button tab="viewonduty">
+        <ion-icon name="map"></ion-icon>
+        <ion-label>View On Duty</ion-label>
+        <ion-badge>6</ion-badge>
+      </ion-tab-button>
+      <!-- <ion-tab-button tab="about">
+        <ion-icon name="information-circle"></ion-icon>
+        <ion-label>About</ion-label>
+      </ion-tab-button> -->
+    </ion-tab-bar>
+  </ion-tabs>
+</ion-content>

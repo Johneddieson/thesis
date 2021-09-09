@@ -109,7 +109,8 @@ export class CreatenursePage implements OnInit {
                   surname: this.registerForm.value.surname,
                   cellphonenumber: this.registerForm.value.cellphonenumber,
                   email: this.registerForm.value.email,
-                  password: this.registerForm.value.password
+                  password: this.registerForm.value.password,
+                  role: 'nurse'
                 })    
               })                       
                 setTimeout(() => {

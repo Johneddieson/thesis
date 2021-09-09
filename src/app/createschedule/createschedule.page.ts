@@ -121,7 +121,7 @@ this.valueDate = new Date()
         setTimeout(() => {
           el.dismiss()
           this.afstore.collection('users').doc(`${arr[1]}`).collection("myschedule").add({
-            schedulestart: myvaluedate,
+            schedulestart: this.scheduleForm.value.date,
             nursename: arr[0],
             patientFullname: `${this.scheduleForm.value.firstname} ${this.scheduleForm.value.middlename} ${this.scheduleForm.value.surname}`,
             patientPhoneNumber: `${this.scheduleForm.value.cellphonenumber}`,

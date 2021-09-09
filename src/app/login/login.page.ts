@@ -48,7 +48,7 @@ loginForm: FormGroup
         this.router.navigateByUrl('/admin/adminpage/createschedule')
             } else if (res.user.displayName == 'nurse') 
             {
-              this.router.navigateByUrl('/nurse/dashboard')
+              this.router.navigateByUrl('/nurse/dashboard/nurseschedule')
   
             } else {
               sessionStorage.setItem('user', null)

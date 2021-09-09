@@ -7,10 +7,10 @@
         <p>Holy Infant Tracking Application</p>
     </div>
     <div class="ion-margin-top">
-        <ion-button   expand="block" class="ion-margin-top" (click)="register()" fill="outline" color="white">SIGN UP</ion-button>
-        <ion-button  expand="block" class="ion-margin-top" (click)="login()" color="white">LOGIN</ion-button>
-        <!-- <ion-button *ngIf="details == 'admin'" (click)="adminpage()" expand="block" class="ion-margin-top" color="white">Continue as {{wholename}}</ion-button>
-        <ion-button *ngIf="details == 'nurse'" (click)="homepage()" expand="block" class="ion-margin-top" color="white">Continue as {{wholename}}</ion-button>        
-       -->
+        <ion-button *ngIf="!disp"   expand="block" class="ion-margin-top" (click)="register()" fill="outline" color="white">SIGN UP</ion-button>
+        <ion-button *ngIf="!disp"  expand="block" class="ion-margin-top" (click)="login()" color="white">LOGIN</ion-button>
+        <ion-button *ngIf="disp == 'admin'" (click)="adminpage()" expand="block" class="ion-margin-top" color="white">Continue as Admin</ion-button>
+        <ion-button *ngIf="disp == 'nurse'" (click)="homepage()" expand="block" class="ion-margin-top" color="white">Back to Dashboard Page</ion-button>        
+      
     </div>
 </ion-content>

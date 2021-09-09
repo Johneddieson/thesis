@@ -6,7 +6,13 @@ import { DashboardPage } from './dashboard.page';
 const routes: Routes = [
   {
     path: '',
-    component: DashboardPage
+    component: DashboardPage,
+    children: [
+      {
+        path: 'nurseschedule',
+        loadChildren: () => import('../nurseschedule/nurseschedule.module').then( m => m.NurseschedulePageModule)
+      },
+    ]
   }
 ];
 

@@ -29,7 +29,7 @@
        -->
        <!-- ((dateToday | date: 'short') == (data.schedulestart | date: 'short') || addMinutes(data.schedulestart)) -->
        <!-- ((dateToday | date: 'short') == (data.schedulestart | date: 'short') || addMinutes((data.schedulestart | date: 'short'), data.datelang)) -->
-      <ion-item   button *ngIf="((dateToday | date: 'short') == (data.schedulestart | date: 'short') || addMinutes((data.schedulestart | date: 'short')))">
+      <ion-item (click)="take(data.id)"  button *ngIf="((dateToday | date: 'short') == (data.schedulestart | date: 'short') || addMinutes((data.schedulestart | date: 'short'), data.onduty, data.finishDuty))">
         <ion-icon name="arrow-forward"></ion-icon>
         <!-- <ion-icon name="ban"></ion-icon> -->
         <ion-text>Take</ion-text>
@@ -51,10 +51,14 @@
         <ion-icon  name="close"></ion-icon>
         <ion-text>Not done</ion-text>
       </ion-item>
+      <ion-item *ngIf="data.finishDuty == 'pending'">
+        <ion-icon  name="fitness-outline"></ion-icon>
+        <ion-text>Pending</ion-text>
+      </ion-item>
       
       <ion-item *ngIf="data.finishDuty == 'done'">
-        <ion-icon  name="close"></ion-icon>
-        <ion-text>Not done</ion-text>
+        <ion-icon  name="checkmark-outline"></ion-icon>
+        <ion-text>Done</ion-text>
       </ion-item>
     </ion-row>
 

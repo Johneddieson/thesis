@@ -3,9 +3,10 @@ import {NavController, Platform} from '@ionic/angular'
 import {Geolocation} from '@ionic-native/geolocation/ngx'
 import { Observable, Subscription } from 'rxjs';
 
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { browser } from 'protractor';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/firestore';
 declare var google;
    //   this.markers.map(marker => marker.setMap(null))
   //   this.markers = [] 
@@ -37,13 +38,26 @@ export class HomePage implements OnInit {
   map: any;
   currentMapTrack = null;
   isTracking = false;
+  angularfirestorecollection: AngularFirestoreDocument;
   trackedRoute = [];
   previousTracks = [];
   details: any = []
   positionSubscription: Subscription;
-  constructor(private router: Router, public navCtrl: NavController, private plt: Platform, private geolocation: Geolocation) { 
+  sub: any
+  constructor(private afstore: AngularFirestore, private actRoute: ActivatedRoute, private router: Router, public navCtrl: NavController, private plt: Platform, private geolocation: Geolocation) { 
     this.details = JSON.parse(sessionStorage.getItem('user'))
-    if (this.details.displayName === "admin")
+    var ID = this.actRoute.snapshot.paramMap.get('id');
+   this.angularfirestorecollection = this.afstore.collection('users').doc(`${this.details.uid}`).collection('myschedule').doc(`${ID}`)
+   this.sub = this.angularfirestorecollection.get()
+   .pipe(map(actions =>  {
+     return {
+       id: actions.id,
+       ...actions.data() as any
+     }
+   })).subscribe(data => {
+     console.log("schedule data", data)
+   })
+   if (this.details.displayName === "admin")
     router.navigateByUrl('/admin/adminpage')
   }
   ngOnInit() {
@@ -52,6 +66,8 @@ export class HomePage implements OnInit {
     window.addEventListener('popstate', function(event) {
       history.pushState(null, document.title, location.href)
     })
+
+   
   }
   ionViewDidLoad() {
     this.plt.ready().then(() => {

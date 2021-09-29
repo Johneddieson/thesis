@@ -3,6 +3,7 @@ import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument,
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 import { $ } from 'protractor';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-nurseschedule',
   templateUrl: './nurseschedule.page.html',
@@ -17,7 +18,7 @@ scheduleConvertTodate;
 dateToday;
 timer
 datexamp
-constructor(private afstore: AngularFirestore) { 
+constructor(private afstore: AngularFirestore, private router: Router) { 
     this.details = JSON.parse(sessionStorage.getItem('user'))
 
     this.meReference = this.afstore.collection("users").doc(`${this.details.uid}`).collection('myschedule')
@@ -30,39 +31,43 @@ constructor(private afstore: AngularFirestore) {
       }))
     ).subscribe(data => {
       this.schedLoop = data
-       
     })
   }
 convert(date) {
   return moment(date).format('D MMM YYYY hh:mm A')
 }
 
-addMinutes(date) {
+addMinutes(date, onduty: boolean, finish) {
+  if (!onduty && finish === "not yet") {
   this.datexamp = date
   var addminute = moment(date).add(30,'minutes').toDate()
 var dateDeadline = moment(date).toDate()
 var petsangayon = moment(this.dateToday).toDate()
-if (petsangayon >= dateDeadline && petsangayon <= addminute)
-return true
-
-
+if (petsangayon >= dateDeadline && petsangayon <= addminute) 
+  {
+    return true
+  } else {
+   return false
+  }
+  } else {
+      return false
+  }
 }
-take() {
-  alert("Hello Nge!")
+take(id: string) {
+      var dateconvert = new Date()
+    var datearrived = moment(dateconvert).format('D MMM YYYY hh:mm A')
+    // this.afstore.collection('users').doc(`${this.details.uid}`).collection('myschedule').doc(`${id}`).update({
+    //   finishDuty: "pending",
+    //   dateandtimearrived: datearrived,
+    //   onduty: true
+    // })
+this.router.navigateByUrl(`/nurse/home/${id}`)
 }
   ngOnInit() {
-var wew = new Date()
-var form = moment(wew).format("YYYY-MM-DD")
-var hjaha = moment(form).toDate()
-
-
     this.timer =  setInterval(() => {
       this.dateToday = new Date()
-      
     }, 100)
-
   }
- 
   convertPresent(date) {
     var petsa = moment(date).toDate()
     

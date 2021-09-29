@@ -16,7 +16,7 @@ loadChildren: () => import('../app/welcome/welcome.module').then(m => m.WelcomeP
         loadChildren: () => import('./dashboard/dashboard.module').then( m => m.DashboardPageModule)
       },
       {
-        path: 'home',
+        path: 'home/:id',
         loadChildren: () => import('./home/home.module').then( m => m.HomePageModule)
       },
     ]

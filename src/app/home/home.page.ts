@@ -70,6 +70,7 @@ export class HomePage implements OnInit {
    
   }
   ionViewDidLoad() {
+    
     this.plt.ready().then(() => {
      // this.loadHistoricRoutes();
       let mapOptions = {

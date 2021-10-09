@@ -51,6 +51,7 @@ loadChildren: () => import('../app/welcome/welcome.module').then(m => m.WelcomeP
     path: 'welcome',
     loadChildren: () => import('./welcome/welcome.module').then( m => m.WelcomePageModule)
   },
+ 
   
  
 

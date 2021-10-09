@@ -27,9 +27,7 @@ export class ViewondutyPage implements OnInit, AfterViewInit{
     { lat: 47.92393, lng: 78.58339 }
   ];
   constructor(private afstore: AngularFirestore) { 
-    this.details = JSON.parse(sessionStorage.getItem('user'))
     
-    this.meRefence = this.afstore.collection('users').doc(`${this.details.uid}`)
   }
 ngAfterViewInit() {
   // var mark = [
@@ -57,6 +55,9 @@ ngAfterViewInit() {
   // });
 }
   ngOnInit() {
+    this.details = JSON.parse(sessionStorage.getItem('user'))
+    
+    this.meRefence = this.afstore.collection('users').doc(`${this.details.uid}`)
     let mapOptions = {
        center: 
        {lat: 17.6022296, lng: 121.6894202},
@@ -82,14 +83,14 @@ this.redrawPath(this.trackedRoute)
  var trialLat = new google.maps.LatLng(17.6022296, 121.6894202)
  this.map.setCenter(trialLat);    
   }
-  redrawPath(path) {
+ async redrawPath(path) {
   
     for (const wew in path) {
     if (this.currentMapTrack) {
       this.currentMapTrack.setMap(null);
     } 
    if (path.length > 1) {
-      this.currentMapTrack = new google.maps.Marker({
+      this.currentMapTrack = await new google.maps.Marker({
       // animation: google.maps.Animation.DROP,
         position: {lat: path[wew].lat, lng: path[wew].lng},
       

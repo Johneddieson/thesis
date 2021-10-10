@@ -77,22 +77,7 @@ export class CreatenursePage implements OnInit {
       }
     }
       }
-      submit () {
-        // if (this.registerForm.value.cellphonenumber.substring(0, 2) != "09" || this.registerForm.value.cellphonenumber.length != 11) {
-        //     this.alertCtrl.create({
-        //     header: "Phone Number Format Error",
-        //     message: "Please Input a Philippine Phone Number Format",
-        //     buttons: [
-        //       {
-        //         text: 'OK',
-        //         role: 'cancel'  
-        //       }
-        //     ]
-        //     }).then((e) => {
-        //       e.present();
-        //     })
-        // } 
-       
+      submit () { 
           this.loadingCtrl.create({
           message: "Creating New Nurse",
           }).then(loading => {
@@ -110,7 +95,10 @@ export class CreatenursePage implements OnInit {
                   cellphonenumber: this.registerForm.value.cellphonenumber,
                   email: this.registerForm.value.email,
                   password: this.registerForm.value.password,
-                  role: 'nurse'
+                  role: 'nurse',
+                  onduty: false,
+                  latitude: 0,
+                  longitude: 0
                 })    
               })                       
                 setTimeout(() => {

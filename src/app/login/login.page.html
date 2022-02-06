@@ -7,19 +7,31 @@
     <h4>Login</h4>
     <p>Lets get started</p>
   </div>
-
-  <ion-input placeholder="Username" class="primary-input"></ion-input>
-  <ion-input placeholder="Password" type="password" class="primary-input"></ion-input>
-
-  <div class="ion-margin-top ion-text-right forget">
-    <a>Forgot Password?</a>
-  </div>
-
-  <div class="ion-margin-top">
-    <ion-button expand="block" (click)="login()">LOGIN</ion-button>
-  </div>
-
-  <div class="ion-margin-top ion-text-center">
-    <a (click)="dismiss()">Close</a>
-  </div>
+    <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value.email, loginForm.value.password)" novalidate> 
+      <ion-input placeholder="Email" formControlName="email" class="primary-input"></ion-input>
+      <ion-text type="text" color="danger" *ngIf="loginForm.get('email').hasError('required') && loginForm.get('email').touched">
+        Email shouldn't be empty 
+       </ion-text>
+       <ion-text type="text" color="danger" *ngIf="loginForm.get('email').hasError('email') && loginForm.get('email').touched">
+        Enter a Valid Email 
+       </ion-text>
+      <ion-input placeholder="Password" formControlName="password" type="password" class="primary-input"></ion-input>
+      <ion-text type="text" color="danger" *ngIf="loginForm.get('password').hasError('required') && loginForm.get('password').touched">
+        Password shouldn't be empty 
+       </ion-text>
+       <ion-text type="text" color="danger" *ngIf="loginForm.get('password').hasError('minlength') && loginForm.get('password').touched">
+        Password must be minimum 8 characters long 
+       </ion-text>
+      <div class="ion-margin-top ion-text-right forget">
+        <a>Forgot Password?</a>
+      </div>
+      <div class="ion-margin-top">
+        <button type="submit" hidden #btn></button>
+    
+        <ion-button expand="block" (click)="btn.click()" [disabled]="loginForm.invalid">LOGIN</ion-button>
+      </div>
+      <div class="ion-margin-top ion-text-center">
+        <a (click)="dismiss()">Close</a>
+      </div>
+    </form>
 </ion-content>

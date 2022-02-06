@@ -9,7 +9,7 @@ import { AppRoutingModule } from './app-routing.module';
 import {AngularFireModule} from '@angular/fire';
 import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {Geolocation} from '@ionic-native/geolocation/ngx'
-import { FormsModule, FormBuilder } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {AuthGuard} from '../app/auth.guard'
 @NgModule({
   declarations: [AppComponent],
@@ -25,7 +25,8 @@ import {AuthGuard} from '../app/auth.guard'
     measurementId: "G-W85KYJ2MCQ"
   }), 
   FormsModule,
-FormBuilder],
+  ReactiveFormsModule
+],
   providers: [AuthGuard, { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
   Geolocation],
   bootstrap: [AppComponent],

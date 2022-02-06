@@ -1,0 +1,104 @@
+<ion-content [fullscreen]="true">    
+  <form [formGroup]="scheduleForm"  (ngSubmit)="triggered()" novalidate>
+    <ion-list>
+
+      <ion-item>
+        <ion-label position="stacked">Nurse who will take this schedule</ion-label>
+        <ion-select  placeholder="Select One" formControlName="nurse">
+          <ion-select-option value="{{data.firstname}} {{data.surname}}&{{data.id}}" *ngFor="let data of nurse">{{data.firstname}} {{data.surname}}</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <ion-text type="text" color="danger" *ngIf="scheduleForm.get('nurse').hasError('required') && scheduleForm.get('nurse').touched">
+        Nurse who will take this schedule shouldn't be empty 
+       </ion-text>
+      <ion-item>
+        <ion-label position="stacked">Start of Date and Time</ion-label>
+        <!-- 2005-06-17T11:06Z -->
+        <ion-datetime formControlName="date" displayFormat="D MMM YYYY hh:mm A"></ion-datetime>
+
+        </ion-item>
+        <ion-text type="text" color="danger" *ngIf="scheduleForm.get('date').hasError('required') && scheduleForm.get('date').touched">
+          Date and Time schedule shouldn't be empty 
+         </ion-text>
+      <ion-item>
+    <ion-label  position="stacked">Patient First Name</ion-label>
+    <ion-input formControlName="firstname" autocomplete="off" type="text"></ion-input>
+    </ion-item>
+    <ion-text type="text" color="danger" *ngIf="scheduleForm.get('firstname').hasError('required') && scheduleForm.get('firstname').touched">
+      First Name shouldn't be empty 
+     </ion-text>
+     <div *ngIf="!scheduleForm.controls.firstname.valid && (scheduleForm.controls.firstname.dirty ||scheduleForm.controls.firstname.touched)" class="error">
+       <ion-text color="danger" *ngIf="scheduleForm.controls.firstname.errors.invalidMsg">
+         {{scheduleForm.controls.firstname.errors.invalidMsg}}
+       </ion-text>
+     </div>
+         <ion-text color="danger" *ngIf="scheduleForm.get('firstname').hasError('minlength') && scheduleForm.get('firstname').touched">
+      First Name must be minimum 5 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="scheduleForm.get('firstname').hasError('maxlength') && scheduleForm.get('firstname').touched">
+      First Name must be maximum 20 characters long
+     </ion-text>
+    <ion-item>
+    <ion-label position="stacked">Patient Middle Name</ion-label>
+    <ion-input formControlName="middlename" autocomplete="off" type="text"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="scheduleForm.get('middlename').hasError('required') && scheduleForm.get('middlename').touched">
+      Middle Name shouldn't be empty 
+     </ion-text>
+     <div *ngIf="!scheduleForm.controls.middlename.valid && (scheduleForm.controls.middlename.dirty ||scheduleForm.controls.middlename.touched)" class="error">
+      <ion-text color="danger" *ngIf="scheduleForm.controls.middlename.errors.invalidMsg">
+        {{scheduleForm.controls.middlename.errors.invalidMsg}}
+      </ion-text>
+    </div>
+     <ion-text color="danger" *ngIf="scheduleForm.get('middlename').hasError('minlength') && scheduleForm.get('middlename').touched">
+       Middle must be minimum 2 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="scheduleForm.get('middlename').hasError('maxlength') && scheduleForm.get('middlename').touched">
+       Middle must be maximum 20 characters long
+     </ion-text>
+    <ion-item>
+    <ion-label position="stacked">Patient Surname</ion-label>
+    <ion-input formControlName="surname" autocomplete="off" type="text"></ion-input>
+    </ion-item>
+    <ion-text color="danger" *ngIf="scheduleForm.get('surname').hasError('required') && scheduleForm.get('surname').touched">
+      Surname shouldn't be empty 
+     </ion-text>
+    <div *ngIf="!scheduleForm.controls.surname.valid && (scheduleForm.controls.surname.dirty ||scheduleForm.controls.surname.touched)" class="error">
+      <ion-text color="danger" *ngIf="scheduleForm.controls.surname.errors.invalidMsg">
+        {{scheduleForm.controls.surname.errors.invalidMsg}}
+      </ion-text>
+    </div>
+     <ion-text color="danger" *ngIf="scheduleForm.get('surname').hasError('minlength') && scheduleForm.get('surname').touched">
+       Surname must be minimum 2 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="scheduleForm.get('surname').hasError('maxlength') && scheduleForm.get('surname').touched">
+       Surname must be maximum 20 characters long
+     </ion-text>
+    <ion-item>
+      <ion-label  position="stacked">Patient Cellphone Number</ion-label>
+      <ion-input formControlName="cellphonenumber" autocomplete="off" type="tel"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="scheduleForm.get('cellphonenumber').hasError('required') && scheduleForm.get('cellphonenumber').touched">
+        Cellphone Number shouldn't be empty 
+       </ion-text>
+       <ion-text color="danger" *ngIf="scheduleForm.get('cellphonenumber').hasError('pattern') && scheduleForm.get('cellphonenumber').touched">
+        Please enter a Philippine phone number format 
+       </ion-text>
+    <ion-item>
+      <ion-label position="stacked">Patient Address</ion-label>
+      <ion-input formControlName="Address" autocomplete="off" type="text"></ion-input>
+      </ion-item>
+      <ion-text color="danger" *ngIf="scheduleForm.get('Address').hasError('required') && scheduleForm.get('Address').touched">
+        Address shouldn't be empty 
+       </ion-text>
+       <ion-text color="danger" *ngIf="scheduleForm.get('Address').hasError('minlength') && scheduleForm.get('Address').touched">
+        Address must be minimum 10 characters long
+      </ion-text>
+      <ion-text color="danger" *ngIf="scheduleForm.get('Address').hasError('maxlength') && scheduleForm.get('Address').touched">
+        Address must be maximum 100 characters long
+      </ion-text>
+    </ion-list>
+    <ion-button type="submit" expand="block" [disabled]="scheduleForm.invalid" color="success">Create this schedule</ion-button>
+    </form>     
+
+</ion-content>

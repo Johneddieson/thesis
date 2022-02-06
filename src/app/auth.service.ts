@@ -69,7 +69,6 @@ export class AuthService {
   // Reset Forggot password
   ForgotPassword(passwordResetEmail) {
     return this.afAuth.sendPasswordResetEmail(passwordResetEmail)
-    
   }
 
   // Returns true when user is looged in and email is verified
@@ -116,7 +115,7 @@ export class AuthService {
   // Sign out 
   SignOut() {
     return this.afAuth.signOut().then(() => {
-      localStorage.removeItem('user');
+      sessionStorage.removeItem('user');
       this.router.navigate(['/']);
     })
   }

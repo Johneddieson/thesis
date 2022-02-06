@@ -236,6 +236,15 @@
 // }
 
 :root {
+  --ion-safe-area-top: 20px;
+  --ion-safe-area-bottom: 22px;
+  --ion-color-error: #e4132f;
+  --ion-color-error-rgb: 235, 68, 90;
+  --ion-color-error-contrast: #e91b1b;
+  --ion-color-error-contrast-rgb: 255, 255, 255;
+  --ion-color-error-shade: #d61e37;
+  --ion-color-error-tint: #e23048;
+
   /** primary **/
   --ion-color-primary: #ee4659;
   --ion-color-primary-rgb: 238,70,89;
@@ -324,6 +333,13 @@
    */
 
   body {
+        --ion-color-error: #e4223c;
+    --ion-color-error-rgb: 255,73,97;
+    --ion-color-error-contrast: #e22626;
+    --ion-color-error-contrast-rgb: 255,255,255;
+    --ion-color-error-shade: #d12c42;
+    --ion-color-error-tint: #dd2941;
+    
     --ion-color-primary: #428cff;
     --ion-color-primary-rgb: 66,140,255;
     --ion-color-primary-contrast: #ffffff;

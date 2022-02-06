@@ -7,19 +7,79 @@
     <h4>Signup</h4>
     <p>Register with Code Crafts to get started</p>
   </div>
-  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <ion-input formControlName="firstname" placeholder="Full Name" class="primary-input"></ion-input>
-  <ion-input formControlName="email" placeholder="Email" class="primary-input"></ion-input>
-  
-  <ion-input formControlName="password" placeholder="Password" type="password" class="primary-input"></ion-input>
+  <form [formGroup]="registerForm"  (ngSubmit)="submit()" novalidate>   
+  <ion-input  placeholder="Enter your First Name" formControlName="firstname" class="primary-input"></ion-input>
+    <ion-text type="text" color="danger" *ngIf="registerForm.get('firstname').hasError('required') && registerForm.get('firstname').touched">
+     First Name shouldn't be empty 
+    </ion-text>
+    <div *ngIf="!registerForm.controls.firstname.valid && (registerForm.controls.firstname.dirty ||registerForm.controls.firstname.touched)" class="error">
+      <ion-text color="danger" *ngIf="registerForm.controls.firstname.errors.invalidMsg">
+        {{registerForm.controls.firstname.errors.invalidMsg}}
+      </ion-text>
+    </div>
+        <ion-text color="danger" *ngIf="registerForm.get('firstname').hasError('minlength') && registerForm.get('firstname').touched">
+     First Name must be minimum 5 characters long
+    </ion-text>
+    <ion-text color="danger" *ngIf="registerForm.get('firstname').hasError('maxlength') && registerForm.get('firstname').touched">
+     First Name must be maximum 10 characters long
+    </ion-text>
+    <ion-input placeholder="Enter your Middle Name" formControlName="middlename" class="primary-input"></ion-input>
+    <ion-text color="danger" *ngIf="registerForm.get('middlename').hasError('required') && registerForm.get('middlename').touched">
+      Middle Name shouldn't be empty 
+     </ion-text>
+     <div *ngIf="!registerForm.controls.middlename.valid && (registerForm.controls.middlename.dirty ||registerForm.controls.middlename.touched)" class="error">
+      <ion-text color="danger" *ngIf="registerForm.controls.middlename.errors.invalidMsg">
+        {{registerForm.controls.middlename.errors.invalidMsg}}
+      </ion-text>
+    </div>
+     <ion-text color="danger" *ngIf="registerForm.get('middlename').hasError('minlength') && registerForm.get('middlename').touched">
+       Middle must be minimum 5 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('middlename').hasError('maxlength') && registerForm.get('middlename').touched">
+       Middle must be maximum 10 characters long
+     </ion-text>
+     <ion-input   placeholder="Enter your Surname" formControlName="surname" class="primary-input"></ion-input>
+     <ion-text color="danger" *ngIf="registerForm.get('surname').hasError('required') && registerForm.get('surname').touched">
+      Surname shouldn't be empty 
+     </ion-text>
+     <div *ngIf="!registerForm.controls.surname.valid && (registerForm.controls.surname.dirty ||registerForm.controls.surname.touched)" class="error">
+      <ion-text color="danger" *ngIf="registerForm.controls.surname.errors.invalidMsg">
+        {{registerForm.controls.surname.errors.invalidMsg}}
+      </ion-text>
+    </div>
+     <ion-text color="danger" *ngIf="registerForm.get('surname').hasError('minlength') && registerForm.get('surname').touched">
+       Surname must be minimum 5 characters long
+     </ion-text>
+     <ion-text color="danger" *ngIf="registerForm.get('surname').hasError('maxlength') && registerForm.get('surname').touched">
+       Surname must be maximum 10 characters long
+     </ion-text>
+     <ion-input spellcheck="false" (keypress)="numberOnly($event)" placeholder="Enter your Phone Number" formControlName="cellphonenumber" class="primary-input"></ion-input>
+     <ion-text color="danger" *ngIf="registerForm.get('cellphonenumber').hasError('required') && registerForm.get('cellphonenumber').touched">
+      Cellphone Number shouldn't be empty 
+     </ion-text>
+     <ion-input placeholder="Email" formControlName="email" class="primary-input"></ion-input>
+  <ion-text color="danger" *ngIf="registerForm.get('email').hasError('email') && registerForm.get('email').touched">
+   Enter a valid email
+  </ion-text>
+  <ion-text color="danger" *ngIf="registerForm.get('email').hasError('required') && registerForm.get('email').touched">
+    Email shouldn't be empty
+   </ion-text>
+  <ion-input  placeholder="Password" formControlName="password" type="password" class="primary-input"></ion-input>
 
-  <p>By signing up you're agreed to our Terms & Conditions</p>
-
+  <ion-text color="danger" *ngIf="registerForm.get('password').hasError('required') && registerForm.get('password').touched">
+    Password shouldn't be empty
+   </ion-text>
+   
+  <ion-text color="danger" *ngIf="registerForm.get('password').hasError('minlength') && registerForm.get('password').touched">
+    Password must be minimum 8 characters long
+   </ion-text>
   <div class="ion-margin-top">
-    <ion-button expand="block" (click)="register()">SIGN UP</ion-button>
+    <button type="submit" hidden #btn></button>
+    <ion-button expand="block" (click)="btn.click()" [disabled]="registerForm.invalid">SIGN UP</ion-button>
   </div>
-</form>
   <div class="ion-margin-top ion-text-center">
     <a (click)="dismiss()">Close</a>
   </div>
+  
+</form>
 </ion-content>
